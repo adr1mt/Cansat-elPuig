@@ -35,7 +35,40 @@ const nav = [
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="ca_ES" />
-    <meta name="theme-color" content="#f6f8fa" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f4f6f8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#090f18" media="(prefers-color-scheme: dark)" />
+    <script is:inline>
+      (() => {
+        let preference = "system";
+        try { preference = localStorage.getItem("cansat-theme") || "system"; } catch {}
+        if (!["light", "dark", "system"].includes(preference)) preference = "system";
+        const media = matchMedia("(prefers-color-scheme: dark)");
+        const apply = () => {
+          const theme = preference === "system" ? (media.matches ? "dark" : "light") : preference;
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.dataset.themePreference = preference;
+          document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
+            meta.content = theme === "dark" ? "#090f18" : "#f4f6f8";
+          });
+        };
+        apply();
+        media.addEventListener("change", apply);
+        document.addEventListener("cansat:theme", event => {
+          if (!["light", "dark", "system"].includes(event.detail)) return;
+          preference = event.detail;
+          try { localStorage.setItem("cansat-theme", preference); } catch {}
+          apply();
+        });
+        window.addEventListener("storage", event => {
+          if (event.key !== "cansat-theme" && event.key !== null) return;
+          preference = ["light", "dark"].includes(event.newValue) ? event.newValue : "system";
+          apply();
+          const select = document.querySelector("[data-theme-select]");
+          if (select) select.value = preference;
+        });
+      })();
+    </script>
   </head>
   <body>
     <a class="skip" href="#main">
@@ -64,7 +97,18 @@ const nav = [
             </a>
           ))}
         </nav>
-        <span class="course">Curs {year.name}</span>
+        <div class="header-tools">
+          <span class="course">Curs {year.name}</span>
+          <label class="theme-control" data-enhance hidden>
+            <Icon name="appearance" />
+            <span class="sr-only">Tema de la web</span>
+            <select data-theme-select aria-label="Tema de la web">
+              <option value="system">Sistema</option>
+              <option value="light">Clar</option>
+              <option value="dark">Fosc</option>
+            </select>
+          </label>
+        </div>
       </div>
     </header>
     <main id="main" class="container" tabindex="-1">

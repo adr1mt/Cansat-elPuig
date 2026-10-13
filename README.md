@@ -2,6 +2,10 @@
 
 Web pública para seguir dos CanSat independientes de SMX2, curso 2026–2027. Puig Falcon usa `equip-a`; el segundo proyecto usa `equip-b`. Interfaz y formularios editoriales en catalán. Sin tareas, alumnos, fotos ni avances ficticios.
 
+## Apariencia
+
+La portada utiliza un esquema conceptual de vuelo CanSat y una cuenta atrás al próximo hito confirmado. El selector **Sistema / Clar / Fosc** sigue por defecto el tema de la máquina y permite guardar una elección manual en el navegador. Todas las páginas se adaptan a ambos temas; sin JavaScript se utiliza la preferencia del sistema. La animación de trayectoria respeta la reducción de movimiento.
+
 ## Stack e instalación
 
 Astro **7.3.8**, versión estable consultada en npm el 13/10/2026, TypeScript estricto, Zod 4 y generación estática. Node **24 LTS recomendado** (mínimo 22.12). `package-lock.json` fija las dependencias. No hay framework de interfaz ni backend. Zod es una dependencia explícita compartida entre Astro y los tests; YAML solo se usa para validar el editor.

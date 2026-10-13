@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-13T15:32:07.304190+00:00",
+  "generatedAt": "2026-10-13T19:22:42.865619+00:00",
   "title": "Design System: CanSat Mission Tracker",
   "extensions": {
     "mode": "read",
@@ -33,9 +33,9 @@
     "shadows": [],
     "motion": [
       {
-        "name": "arrive",
-        "value": "0.4s ease-out; translateY(4px) → none",
-        "purpose": "Entrada de main; desactivada bajo prefers-reduced-motion."
+        "name": "flight-trace",
+        "value": "1.2s cubic-bezier(.16, 1, .3, 1); stroke-dashoffset 60 → 0",
+        "purpose": "Trayectoria conceptual del CanSat; desactivada bajo prefers-reduced-motion."
       }
     ],
     "breakpoints": [
@@ -52,7 +52,40 @@
       "value": "3px solid var(--accent)",
       "offset": "4px"
     },
-    "tonalRampPolicy": "No existe una rampa tonal normativa en el código; no se generan valores adicionales."
+    "tonalRampPolicy": "No existe una rampa tonal normativa en el código; no se generan valores adicionales.",
+    "themes": {
+      "default": "system",
+      "preferenceKey": "cansat-theme",
+      "options": [
+        "system",
+        "light",
+        "dark"
+      ],
+      "light": {
+        "paper": "#f4f6f8",
+        "surface": "#ffffff",
+        "ink": "#172c43",
+        "muted": "#526478",
+        "line": "#dbe3ea",
+        "accent": "#2459b8"
+      },
+      "dark": {
+        "paper": "#090f18",
+        "surface": "#101b29",
+        "ink": "#e6edf5",
+        "muted": "#a3b3c6",
+        "line": "#293a4d",
+        "accent": "#91baff"
+      },
+      "launch": {
+        "background": "#0e2034",
+        "milestone": "#142b44",
+        "text": "#f1f6fc",
+        "muted": "#b9cbdf",
+        "trajectory": "#ff7855",
+        "countdown": "#ffac90"
+      }
+    }
   },
   "components": [
     {
@@ -61,7 +94,7 @@
       "refersTo": "button-link",
       "description": "Enlace con superficie oscura.",
       "html": "<a class=\"ds-button\" href=\"#\">Tornar a l’inici</a>",
-      "css": ".ds-button{display:inline-block;background:var(--ink);color:var(--surface);padding:10px 20px;border-radius:8px;text-decoration:none;font:15px/1.65 var(--font)}.ds-button:hover{color:var(--accent)}.ds-button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}"
+      "css": ".ds-button{display:inline-block;background:var(--ink);color:var(--inverse);padding:10px 20px;border-radius:8px;text-decoration:none;font:15px/1.65 var(--font)}.ds-button:hover{color:var(--accent)}.ds-button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}"
     },
     {
       "name": "Filtro del diario",
@@ -69,7 +102,7 @@
       "refersTo": "button-filter",
       "description": "Filtro consultivo con selección explícita.",
       "html": "<button class=\"ds-filter\" aria-pressed=\"false\">Puig Falcon</button> <button class=\"ds-filter\" aria-pressed=\"true\">Tots els equips</button>",
-      "css": ".ds-filter{font:.85rem/1.65 var(--font);color:var(--ink);background:var(--surface);border:1px solid var(--line);padding:9px 18px;border-radius:8px;cursor:pointer}.ds-filter[aria-pressed=\"true\"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}.ds-filter:hover{border-color:#8294a7}.ds-filter:focus-visible{outline:3px solid var(--accent);outline-offset:4px}"
+      "css": ".ds-filter{font:.85rem/1.65 var(--font);color:var(--ink);background:var(--surface);border:1px solid var(--line);padding:9px 18px;border-radius:8px;cursor:pointer}.ds-filter[aria-pressed=\"true\"]{background:var(--ink);color:var(--inverse);border-color:var(--ink)}.ds-filter:hover{border-color:#8294a7}.ds-filter:focus-visible{outline:3px solid var(--accent);outline-offset:4px}"
     },
     {
       "name": "Selector de consulta",
@@ -77,7 +110,7 @@
       "refersTo": "field-select",
       "description": "Selección de categoría en un tablero de lectura.",
       "html": "<select class=\"ds-select\" aria-label=\"Categoria\"><option>Totes les categories</option></select>",
-      "css": ".ds-select{font:.85rem/1.65 var(--font);color:var(--ink);background:var(--surface);border:1px solid #bbc9d6;border-radius:7px;padding:8px 12px;max-width:100%;cursor:pointer}.ds-select:focus-visible{outline:3px solid var(--accent);outline-offset:4px}"
+      "css": ".ds-select{font:.85rem/1.65 var(--font);color:var(--ink);background:var(--surface);border:1px solid var(--field-line);border-radius:7px;padding:8px 12px;max-width:100%;cursor:pointer}.ds-select:focus-visible{outline:3px solid var(--accent);outline-offset:4px}"
     },
     {
       "name": "Navegación",
@@ -85,7 +118,7 @@
       "refersTo": "navigation-link",
       "description": "Página actual indicada por aria-current.",
       "html": "<nav class=\"ds-nav\"><a aria-current=\"page\" href=\"#\">Inici</a><a href=\"#\">Calendari</a></nav>",
-      "css": ".ds-nav{display:flex;gap:8px}.ds-nav a{font:.9rem/1.65 var(--font);padding:9px 14px;border-radius:8px;color:var(--muted);text-decoration:none;white-space:nowrap}.ds-nav a[aria-current=\"page\"]{background:#edf2f8;color:var(--ink);font-weight:650}.ds-nav a:hover{background:var(--paper)}.ds-nav a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}"
+      "css": ".ds-nav{display:flex;gap:8px}.ds-nav a{font:.9rem/1.65 var(--font);padding:9px 14px;border-radius:8px;color:var(--muted);text-decoration:none;white-space:nowrap}.ds-nav a[aria-current=\"page\"]{background:var(--tonal);color:var(--ink);font-weight:650}.ds-nav a:hover{background:var(--paper)}.ds-nav a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}"
     },
     {
       "name": "Etiqueta",
@@ -93,7 +126,7 @@
       "refersTo": "chip",
       "description": "Estado o clasificación informativa.",
       "html": "<span class=\"ds-tag\">Seguiment de missió</span>",
-      "css": ".ds-tag{display:inline-block;font:.67rem/1.5 var(--font);color:#425569;background:#f0f3f6;border:1px solid #e2e7ec;padding:3px 8px;border-radius:5px;white-space:normal}"
+      "css": ".ds-tag{display:inline-block;font:.67rem/1.5 var(--font);color:var(--tag-text);background:var(--tonal);border:1px solid var(--line);padding:3px 8px;border-radius:5px;white-space:normal}"
     },
     {
       "name": "Tarjeta de equipo",
@@ -109,26 +142,26 @@
       "refersTo": "task",
       "description": "Detalle desplegable de consulta.",
       "html": "<details class=\"ds-task\"><summary><strong>Detalls de la tasca</strong></summary><p>Sense informació addicional.</p></details>",
-      "css": ".ds-task{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:9px;margin-bottom:12px;font:15px/1.65 var(--font);overflow-wrap:anywhere}.ds-task summary{padding:15px;cursor:pointer;list-style:none}.ds-task summary::-webkit-details-marker{display:none}.ds-task summary:hover,.ds-task[open] summary{background:#f8fafc}.ds-task strong{font-size:.92rem}.ds-task p{padding:0 15px 15px;font-size:.82rem}.ds-task summary:focus-visible{outline:3px solid var(--accent);outline-offset:4px}"
+      "css": ".ds-task{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:9px;margin-bottom:12px;font:15px/1.65 var(--font);overflow-wrap:anywhere}.ds-task summary{padding:15px;cursor:pointer;list-style:none}.ds-task summary::-webkit-details-marker{display:none}.ds-task summary:hover,.ds-task[open] summary{background:var(--summary)}.ds-task strong{font-size:.92rem}.ds-task p{padding:0 15px 15px;font-size:.82rem}.ds-task summary:focus-visible{outline:3px solid var(--accent);outline-offset:4px}"
     }
   ],
   "narrative": {
-    "overview": "Web pública educativa catalana del Institut Puig Castellar. Modo Read con componentes de seguimiento: dashboard SaaS claro (80 %) y Mission Control discreto (20 %). La geometría orbital, los identificadores de misión y la cuenta atrás aportan el acento técnico dentro de superficies claras, bordes y espacio.",
+    "overview": "Web educativa catalana con seguimiento de misión y panel de lanzamiento espacial. Tema automático claro/oscuro, esquema conceptual del CanSat y próxima fecha confirmada.",
     "keyCharacteristics": [
       "Modo Read",
-      "Dashboard SaaS claro (80 %) y Mission Control discreto (20 %)",
+      "Panel espacial y trayectoria conceptual CanSat",
+      "Tema del sistema con elección manual persistente",
       "Bordes y espacio; sin sombras"
     ],
     "rules": [],
     "dos": [
-      "Do mantener bordes, espacio y superficies claras como base de la jerarquía.",
-      "Do identificar Puig Falcon en azul y Equip B en teal, con nombres y estados escritos.",
-      "Do preservar el foco visible y la preferencia de reducción de movimiento."
+      "Mantener el contenido editorial y la identidad de los equipos.",
+      "Usar variables semánticas para ambos temas.",
+      "Respetar foco visible y reducción de movimiento."
     ],
     "donts": [
-      "Don't introducir sombras en las tarjetas del sistema actual.",
-      "Don't convertir el acento Mission Control en el lenguaje dominante.",
-      "Don't comunicar estados únicamente mediante color."
+      "No inventar telemetría, avances ni fecha de lanzamiento.",
+      "No comunicar estados únicamente por color."
     ]
   }
 }
