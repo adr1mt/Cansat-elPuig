@@ -1,0 +1,33 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { loadData } from "../lib/data";
+import Timeline from "../components/Timeline.astro";
+const d = await loadData();
+---
+
+<Layout title="Calendari">
+  <div class="page-heading">
+    <h1>El camí fins al llançament.</h1>
+    <p>
+      Dates i lliuraments del curs {d.year.name}. Les fases nacional i europea
+      depenen de la classificació de cada equip.
+    </p>
+  </div>
+  <div class="calendar-note">
+    <strong>Un calendari que es concreta pas a pas</strong>
+    <p>
+      El CDR i la fase autonòmica encara no tenen una data exacta. Els períodes
+      orientatius no formen part de el compte enrere.
+    </p>
+  </div>
+  <Timeline teams={d.teams} milestones={d.milestones} />
+  <section class="section resources">
+    <h2>Documentació del desafiament</h2>
+    <a href={d.settings.basesUrl}>Bases vigents {d.year.name} ↗</a>
+    <a href={d.settings.pdrUrl}>Guia PDR · referència tècnica ↗</a>
+    <a href={d.settings.cdrUrl}>Guia CDR · referència tècnica ↗</a>
+    <p class="helper">
+      Prioritzem les bases vigents i les plantilles noves que publiqui ESERO.
+    </p>
+  </section>
+</Layout>

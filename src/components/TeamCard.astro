@@ -1,0 +1,65 @@
+---
+import type { Team, Task, MissionLog } from "../lib/schemas";
+import { activeTasks, progress, latestLogs, formatDate } from "../lib/domain";
+import { path } from "../lib/paths";
+import Icon from "./Icon.astro";
+interface Props {
+  team: Team;
+  tasks: Task[];
+  logs: MissionLog[];
+}
+const { team, tasks, logs } = Astro.props;
+const stats = progress(activeTasks(tasks, team.id, team.yearId));
+const latest = latestLogs(logs, team.id, team.yearId)[0];
+---
+
+<article class="team-card" style={`--team:${team.color}`}>
+  <div class="team-top">
+    <span class="mission-id">
+      {team.id.toUpperCase()} · {team.yearId}
+    </span>
+    <span class="tag">Seguiment de missió</span>
+  </div>
+  <div class="team-heading">
+    <span class="team-symbol">
+      <Icon />
+    </span>
+    <h3>
+      <a href={path(`equips/${team.id}/`)}>{team.name}</a>
+    </h3>
+  </div>
+  <p class="secondary">
+    {team.secondaryMission || "Missió secundària per definir"}
+  </p>
+  <div class="progress-label">
+    <span>Progrés de tasques</span>
+    <strong>
+      {stats.percent === null ? "Sense tasques" : `${stats.percent} %`}
+    </strong>
+  </div>
+  {stats.percent !== null && (
+    <progress
+      value={stats.done}
+      max={stats.total}
+      aria-label={`Progrés de ${team.name}`}
+    />
+  )}
+  <div class="team-meta">
+    <span>
+      {stats.done} / {stats.total} completades
+    </span>
+    {stats.blocked > 0 && <span>{stats.blocked} bloquejades</span>}
+  </div>
+  <div class="team-bottom">
+    <small>
+      Darrera actualització
+      <br />
+      <strong>
+        {latest ? formatDate(latest.date) : "Encara no hi ha registres"}
+      </strong>
+    </small>
+    <a class="text-link" href={path(`equips/${team.id}/`)}>
+      Veure missió <Icon name="arrow" />
+    </a>
+  </div>
+</article>

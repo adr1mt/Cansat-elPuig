@@ -1,0 +1,152 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { loadData } from "../../lib/data";
+import {
+  activeTasks,
+  progress,
+  latestLogs,
+  formatDate,
+} from "../../lib/domain";
+import TaskBoard from "../../components/TaskBoard.astro";
+import EmptyState from "../../components/EmptyState.astro";
+import { path } from "../../lib/paths";
+export async function getStaticPaths() {
+  const d = await loadData();
+  return d.teams.map((team) => ({ params: { id: team.id }, props: { team } }));
+}
+const { team } = Astro.props;
+const d = await loadData();
+const tasks = activeTasks(d.tasks, team.id, team.yearId),
+  stats = progress(tasks);
+const reqs = d.requirements
+  .filter((r) => r.teamId === team.id)
+  .sort(
+    (a, b) =>
+      Number(a.title.match(/R(\d+)/)?.[1] || 99) -
+      Number(b.title.match(/R(\d+)/)?.[1] || 99),
+  );
+const meeting = latestLogs(d.logs, team.id, team.yearId).find((l) => l.meeting);
+const labels = {
+  pending: "Pendent",
+  checking: "En verificació",
+  verified: "Verificat",
+};
+---
+
+<Layout title={team.name} description={team.description}>
+  <div class="page-heading team-page" style={`--team:${team.color}`}>
+    <a class="breadcrumb" href={path("equips/")}>
+      ← Equips
+    </a>
+    <h1>{team.name}</h1>
+    <p>{team.description}</p>
+    <span class="mission-id">
+      {team.id.toUpperCase()} · {team.yearId}
+    </span>
+  </div>
+  <div class="mission-columns">
+    <section>
+      <h2>Missió principal</h2>
+      <p>{d.settings.primaryMission}</p>
+    </section>
+    <section>
+      <h2>Missió secundària</h2>
+      <p>
+        {team.secondaryMission ||
+          "L’equip encara ha de definir la seva pregunta científica i els objectius de la missió."}
+      </p>
+    </section>
+  </div>
+  <p class="participants">
+    <strong>Participants:</strong>{" "}
+    {team.participants.length
+      ? team.participants.join(" · ")
+      : "Noms o àlies pendents de publicació autoritzada."}
+  </p>
+  <dl class="stats">
+    {[
+      ["total", "Tasques totals"],
+      ["done", "Completades"],
+      ["pending", "Pendents"],
+      ["active", "En curs"],
+      ["blocked", "Bloquejades"],
+      ["overdue", "Vençudes"],
+    ].map(([k, v]) => (
+      <div>
+        <dt>{v}</dt>
+        <dd data-stat={k}>{stats[k as keyof typeof stats]}</dd>
+      </div>
+    ))}
+  </dl>
+  <script
+    type="application/json"
+    data-tasks-data
+    set:html={JSON.stringify(tasks).replace(/</g, "\u003c")}
+  />
+  <TaskBoard tasks={tasks} />
+  <section class="section">
+    <h2>Darrera reunió</h2>
+    {meeting ? (
+      <article class="meeting">
+        <time datetime={meeting.date}>{formatDate(meeting.date)}</time>
+        <h3>{meeting.title}</h3>
+        <p>
+          <strong>Què hem aconseguit:</strong> {meeting.summary}
+        </p>
+        <p>
+          <strong>Bloquejos detectats:</strong>{" "}
+          {meeting.blockers || "Sense bloquejos registrats."}
+        </p>
+        <p>
+          <strong>Compromisos:</strong>{" "}
+          {meeting.nextSteps || "Sense compromisos registrats."}
+        </p>
+      </article>
+    ) : (
+      <EmptyState
+        title="Encara no hi ha cap reunió publicada"
+        text="El primer resum recollirà què s’ha aconseguit, els bloquejos i els compromisos per a la setmana següent."
+      />
+    )}
+  </section>
+  <section class="section">
+    <div class="section-heading">
+      <h2>Verificacions tècniques</h2>
+      <span class="muted">
+        {
+          reqs.filter((r) => r.status === "verified" && !r.recommendation)
+            .length
+        }{" "}
+        / {reqs.filter((r) => !r.recommendation).length} requisits verificats
+      </span>
+    </div>
+    <p class="helper">
+      El progrés de tasques i la verificació tècnica són independents. Aquest
+      registre no substitueix la inspecció ni l’autorització de vol de
+      l’organització.
+    </p>
+    <div class="checklist">
+      {reqs.map((r) => (
+        <details>
+          <summary>
+            <span>
+              {r.title}
+              {r.recommendation && <small>Recomanació</small>}
+            </span>
+            <span class="tag">{labels[r.status]}</span>
+          </summary>
+          <div class="requirement-details">
+            <p>{r.description}</p>
+            {r.notes && <p>Observacions: {r.notes}</p>}
+            {r.evidence && <a href={r.evidence}>Evidència pública ↗</a>}
+            {r.source && (
+              <a class="source" href={r.source}>
+                Font del requisit · apartat 4 ↗
+              </a>
+            )}
+          </div>
+        </details>
+      ))}
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,10 @@
+{
+  "id": "equip-b",
+  "yearId": "2026-2027",
+  "name": "Equip B",
+  "color": "#087d79",
+  "description": "Un CanSat propi, una missió científica independent. Equip de segon curs del CFGM de Sistemes Microinformàtics i Xarxes.",
+  "secondaryMission": "",
+  "participants": [],
+  "archived": false
+}

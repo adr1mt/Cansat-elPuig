@@ -1,0 +1,105 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { loadData } from "../lib/data";
+import { latestLogs, upcoming } from "../lib/domain";
+import { path } from "../lib/paths";
+import TeamCard from "../components/TeamCard.astro";
+import NextMilestone from "../components/NextMilestone.astro";
+import Timeline from "../components/Timeline.astro";
+import MissionLogCard from "../components/MissionLogCard.astro";
+import EmptyState from "../components/EmptyState.astro";
+const d = await loadData();
+const latest = d.teams
+  .map((t) => latestLogs(d.logs, t.id, d.year.id)[0])
+  .filter(Boolean);
+---
+
+<Layout title="Inici">
+  <section class="hero">
+    <div>
+      <h1 class="hero-title">{d.settings.heroTitle}</h1>
+      <p>{d.settings.description}</p>
+      <a class="text-link" href={d.settings.officialUrl}>
+        Coneix el desafiament CanSat ↗
+      </a>
+    </div>
+    <div class="hero-aside">
+      <span class="orbit" aria-hidden="true">
+        <svg viewBox="0 0 240 180" fill="none">
+          <ellipse
+            cx="120"
+            cy="90"
+            rx="103"
+            ry="45"
+            transform="rotate(-25 120 90)"
+            stroke="currentColor"
+          />
+          <ellipse
+            cx="120"
+            cy="90"
+            rx="103"
+            ry="45"
+            transform="rotate(25 120 90)"
+            stroke="currentColor"
+          />
+          <circle cx="120" cy="90" r="25" stroke="currentColor" />
+          <circle cx="204" cy="53" r="5" fill="currentColor" />
+        </svg>
+      </span>
+      <strong>Dos equips. Un mateix repte.</strong>
+      <span>SMX2 · Curs {d.year.name}</span>
+    </div>
+  </section>
+  <NextMilestone milestones={d.milestones} />
+  <section class="section">
+    <div class="section-heading">
+      <h2>Les nostres missions</h2>
+      <a href={path("equips/")} class="text-link">
+        Tots els equips →
+      </a>
+    </div>
+    <div class="team-grid">
+      {d.teams.map((team) => (
+        <TeamCard team={team} tasks={d.tasks} logs={d.logs} />
+      ))}
+    </div>
+  </section>
+  <div class="home-bottom">
+    <section>
+      <div class="section-heading">
+        <h2>Última activitat</h2>
+        <a class="text-link" href={path("diari/")}>
+          Obrir el diari →
+        </a>
+      </div>
+      {latest.length ? (
+        latestLogs(latest).map((log) => (
+          <MissionLogCard
+            log={log}
+            team={d.teams.find((t) => t.id === log.teamId)!}
+          />
+        ))
+      ) : (
+        <EmptyState
+          title="La missió tot just comença"
+          text="Encara no hi ha avenços publicats. Aquí trobaràs els resums de les reunions i les proves de cada equip."
+        />
+      )}
+    </section>
+    <section>
+      <div class="section-heading">
+        <h2>Properes fites</h2>
+        <a class="text-link" href={path("calendari/")}>
+          Veure calendari →
+        </a>
+      </div>
+      <div data-upcoming-list>
+        <Timeline compact milestones={upcoming(d.milestones).slice(0, 3)} />
+      </div>
+      <p class="helper">
+        Les dates pendents i les fases condicionades es poden consultar al
+        calendari.
+      </p>
+    </section>
+  </div>
+</Layout>

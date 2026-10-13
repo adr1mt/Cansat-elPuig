@@ -1,0 +1,14 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { path } from "../lib/paths";
+---
+
+<Layout title="Pàgina no trobada">
+  <div class="page-heading">
+    <h1>Aquesta ruta no existeix.</h1>
+    <p>Torna al seguiment de les missions per continuar.</p>
+    <a class="button" href={path()}>
+      Torna a l’inici
+    </a>
+  </div>
+</Layout>

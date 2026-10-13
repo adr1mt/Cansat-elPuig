@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-13T15:32:07.304190+00:00",
+  "title": "Design System: CanSat Mission Tracker",
+  "extensions": {
+    "mode": "read",
+    "sourceFiles": [
+      "src/styles/global.css",
+      "src/components/TeamCard.astro",
+      "src/components/TaskBoard.astro",
+      "src/components/NextMilestone.astro",
+      "content/teams/equip-a.json",
+      "content/teams/equip-b.json"
+    ],
+    "colorMeta": {
+      "accent": {
+        "role": "primary",
+        "displayName": "Azul Puig Falcon"
+      },
+      "team-b": {
+        "role": "secondary",
+        "displayName": "Teal Equip B"
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Papel frío"
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Texto principal"
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "arrive",
+        "value": "0.4s ease-out; translateY(4px) → none",
+        "purpose": "Entrada de main; desactivada bajo prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "intermediate",
+        "value": "1100px"
+      },
+      {
+        "name": "mobile",
+        "value": "767px"
+      }
+    ],
+    "focus": {
+      "value": "3px solid var(--accent)",
+      "offset": "4px"
+    },
+    "tonalRampPolicy": "No existe una rampa tonal normativa en el código; no se generan valores adicionales."
+  },
+  "components": [
+    {
+      "name": "Enlace de retorno",
+      "kind": "button",
+      "refersTo": "button-link",
+      "description": "Enlace con superficie oscura.",
+      "html": "<a class=\"ds-button\" href=\"#\">Tornar a l’inici</a>",
+      "css": ".ds-button{display:inline-block;background:var(--ink);color:var(--surface);padding:10px 20px;border-radius:8px;text-decoration:none;font:15px/1.65 var(--font)}.ds-button:hover{color:var(--accent)}.ds-button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}"
+    },
+    {
+      "name": "Filtro del diario",
+      "kind": "button",
+      "refersTo": "button-filter",
+      "description": "Filtro consultivo con selección explícita.",
+      "html": "<button class=\"ds-filter\" aria-pressed=\"false\">Puig Falcon</button> <button class=\"ds-filter\" aria-pressed=\"true\">Tots els equips</button>",
+      "css": ".ds-filter{font:.85rem/1.65 var(--font);color:var(--ink);background:var(--surface);border:1px solid var(--line);padding:9px 18px;border-radius:8px;cursor:pointer}.ds-filter[aria-pressed=\"true\"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}.ds-filter:hover{border-color:#8294a7}.ds-filter:focus-visible{outline:3px solid var(--accent);outline-offset:4px}"
+    },
+    {
+      "name": "Selector de consulta",
+      "kind": "input",
+      "refersTo": "field-select",
+      "description": "Selección de categoría en un tablero de lectura.",
+      "html": "<select class=\"ds-select\" aria-label=\"Categoria\"><option>Totes les categories</option></select>",
+      "css": ".ds-select{font:.85rem/1.65 var(--font);color:var(--ink);background:var(--surface);border:1px solid #bbc9d6;border-radius:7px;padding:8px 12px;max-width:100%;cursor:pointer}.ds-select:focus-visible{outline:3px solid var(--accent);outline-offset:4px}"
+    },
+    {
+      "name": "Navegación",
+      "kind": "nav",
+      "refersTo": "navigation-link",
+      "description": "Página actual indicada por aria-current.",
+      "html": "<nav class=\"ds-nav\"><a aria-current=\"page\" href=\"#\">Inici</a><a href=\"#\">Calendari</a></nav>",
+      "css": ".ds-nav{display:flex;gap:8px}.ds-nav a{font:.9rem/1.65 var(--font);padding:9px 14px;border-radius:8px;color:var(--muted);text-decoration:none;white-space:nowrap}.ds-nav a[aria-current=\"page\"]{background:#edf2f8;color:var(--ink);font-weight:650}.ds-nav a:hover{background:var(--paper)}.ds-nav a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}"
+    },
+    {
+      "name": "Etiqueta",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Estado o clasificación informativa.",
+      "html": "<span class=\"ds-tag\">Seguiment de missió</span>",
+      "css": ".ds-tag{display:inline-block;font:.67rem/1.5 var(--font);color:#425569;background:#f0f3f6;border:1px solid #e2e7ec;padding:3px 8px;border-radius:5px;white-space:normal}"
+    },
+    {
+      "name": "Tarjeta de equipo",
+      "kind": "card",
+      "refersTo": "team-card",
+      "description": "Superficie consultiva de misión.",
+      "html": "<article class=\"ds-card\"><h3>Puig Falcon</h3><p>Missió secundària per definir</p></article>",
+      "css": ".ds-card{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:var(--radius);padding:26px;min-width:0;font:15px/1.65 var(--font)}.ds-card h3{margin:0;font-size:1.8rem;font-weight:650;line-height:1.4;letter-spacing:-.025em}.ds-card p{font-size:.9rem;color:var(--muted);margin:12px 0 28px}@media(max-width:767px){.ds-card{padding:22px}.ds-card h3{font-size:1.65rem}}"
+    },
+    {
+      "name": "Detalle de tarea",
+      "kind": "custom",
+      "refersTo": "task",
+      "description": "Detalle desplegable de consulta.",
+      "html": "<details class=\"ds-task\"><summary><strong>Detalls de la tasca</strong></summary><p>Sense informació addicional.</p></details>",
+      "css": ".ds-task{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:9px;margin-bottom:12px;font:15px/1.65 var(--font);overflow-wrap:anywhere}.ds-task summary{padding:15px;cursor:pointer;list-style:none}.ds-task summary::-webkit-details-marker{display:none}.ds-task summary:hover,.ds-task[open] summary{background:#f8fafc}.ds-task strong{font-size:.92rem}.ds-task p{padding:0 15px 15px;font-size:.82rem}.ds-task summary:focus-visible{outline:3px solid var(--accent);outline-offset:4px}"
+    }
+  ],
+  "narrative": {
+    "overview": "Web pública educativa catalana del Institut Puig Castellar. Modo Read con componentes de seguimiento: dashboard SaaS claro (80 %) y Mission Control discreto (20 %). La geometría orbital, los identificadores de misión y la cuenta atrás aportan el acento técnico dentro de superficies claras, bordes y espacio.",
+    "keyCharacteristics": [
+      "Modo Read",
+      "Dashboard SaaS claro (80 %) y Mission Control discreto (20 %)",
+      "Bordes y espacio; sin sombras"
+    ],
+    "rules": [],
+    "dos": [
+      "Do mantener bordes, espacio y superficies claras como base de la jerarquía.",
+      "Do identificar Puig Falcon en azul y Equip B en teal, con nombres y estados escritos.",
+      "Do preservar el foco visible y la preferencia de reducción de movimiento."
+    ],
+    "donts": [
+      "Don't introducir sombras en las tarjetas del sistema actual.",
+      "Don't convertir el acento Mission Control en el lenguaje dominante.",
+      "Don't comunicar estados únicamente mediante color."
+    ]
+  }
+}

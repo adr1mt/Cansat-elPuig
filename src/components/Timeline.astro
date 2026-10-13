@@ -1,0 +1,69 @@
+---
+import type { Milestone, Team } from "../lib/schemas";
+import { formatDate, milestoneState, orderMilestones } from "../lib/domain";
+interface Props {
+  milestones: Milestone[];
+  compact?: boolean;
+  teams?: Team[];
+}
+const { milestones, compact = false, teams = [] } = Astro.props;
+const labels = {
+  confirmed: "Data oficial confirmada",
+  approximate: "Període orientatiu",
+  unknown: "Data per confirmar",
+};
+const types = {
+  registration: "Inscripció",
+  report: "Informe",
+  launch: "Llançament",
+  event: "Esdeveniment",
+  internal: "Centre",
+};
+const ordered = orderMilestones(milestones);
+---
+
+<ol class:list={["timeline", { compact }]}>
+  {ordered.map((m) => (
+    <li
+      data-timeline-date={m.date}
+      data-timeline-end={m.endDate}
+      data-timeline-status={m.status}
+    >
+      <div class="timeline-marker" aria-hidden="true"></div>
+      <div class="timeline-date">
+        {m.date ? formatDate(m.date) : m.period || "Data per confirmar"}
+        {m.endDate && <small>fins al {formatDate(m.endDate)}</small>}
+      </div>
+      <div class="timeline-body">
+        <div class="timeline-title">
+          <h3>{m.title}</h3>
+          <span class="tag" data-milestone-state>
+            {milestoneState(m)}
+          </span>
+        </div>
+        {!compact && (
+          <>
+            <p>{m.description}</p>
+            <div class="tags">
+              <span class="tag">{labels[m.dateKind]}</span>
+              <span class="tag">{types[m.type]}</span>
+              {m.conditional && (
+                <span class="tag conditional">Si es classifica</span>
+              )}
+              {m.teamId && (
+                <span class="tag">
+                  {teams.find((t) => t.id === m.teamId)?.name || m.teamId}
+                </span>
+              )}
+            </div>
+            {m.source && (
+              <a class="source" href={m.source}>
+                Font i documentació oficial ↗
+              </a>
+            )}
+          </>
+        )}
+      </div>
+    </li>
+  ))}
+</ol>

@@ -1,0 +1,25 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { loadData } from "../../lib/data";
+import TeamCard from "../../components/TeamCard.astro";
+const d = await loadData();
+---
+
+<Layout title="Equips">
+  <div class="page-heading">
+    <h1>Dos CanSat, dues missions.</h1>
+    <p>
+      Cada equip defineix la seva pregunta científica, construeix el seu
+      dispositiu i segueix la seva pròpia planificació.
+    </p>
+  </div>
+  <div class="team-grid">
+    {d.teams.map((team) => (
+      <TeamCard team={team} tasks={d.tasks} logs={d.logs} />
+    ))}
+  </div>
+  <section class="section primary-mission">
+    <h2>Una missió principal compartida</h2>
+    <p>{d.settings.primaryMission}</p>
+  </section>
+</Layout>

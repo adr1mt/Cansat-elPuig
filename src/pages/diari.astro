@@ -1,0 +1,54 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { loadData } from "../lib/data";
+import { latestLogs } from "../lib/domain";
+import MissionLogCard from "../components/MissionLogCard.astro";
+import EmptyState from "../components/EmptyState.astro";
+const d = await loadData();
+const logs = latestLogs(d.logs);
+---
+
+<Layout title="Diari de missió">
+  <div class="page-heading">
+    <h1>La missió, setmana a setmana.</h1>
+    <p>
+      Avenços, proves, entrebancs i decisions. El registre compartit del treball
+      dels dos equips.
+    </p>
+  </div>
+  <section data-log-filter>
+    <div
+      class="filter-buttons"
+      hidden
+      data-enhance
+      role="group"
+      aria-label="Filtra per equip"
+    >
+      <button data-team-filter="all" aria-pressed="true">
+        Tots
+      </button>
+      {d.teams.map((t) => (
+        <button data-team-filter={t.id} aria-pressed="false">
+          {t.name}
+        </button>
+      ))}
+    </div>
+    <p class="helper" data-log-count aria-live="polite">
+      {logs.length} entrades
+    </p>
+    <div class="log-grid">
+      {logs.map((log) => (
+        <MissionLogCard
+          log={log}
+          team={d.teams.find((t) => t.id === log.teamId)!}
+        />
+      ))}
+    </div>
+    <div data-log-empty hidden={logs.length > 0}>
+      <EmptyState
+        title="La primera entrada encara està per escriure"
+        text="Els resums de reunió i els avenços de cada equip apareixeran aquí quan es publiquin."
+      />
+    </div>
+  </section>
+</Layout>

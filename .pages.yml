@@ -1,0 +1,558 @@
+media:
+  input: public/media
+  output: /media
+  extensions:
+  - jpg
+  - jpeg
+  - png
+  - webp
+  rename: safe
+content:
+- name: settings
+  label: Configuració del web
+  type: file
+  path: content/settings/site.json
+  format: json
+  fields:
+  - name: id
+    label: Identificador
+    type: string
+    required: true
+    readonly: true
+    pattern:
+      regex: ^[a-zA-Z0-9_-]+$
+      message: Identificador sense espais, amb lletres, números, guions o guions baixos.
+  - name: title
+    label: Nom del web
+    type: string
+    required: true
+  - name: description
+    label: Introducció
+    type: text
+    required: true
+  - name: school
+    label: Centre
+    type: string
+    required: true
+  - name: location
+    label: Localitat
+    type: string
+  - name: activeYearId
+    label: Curs actiu
+    type: reference
+    required: true
+    options:
+      collection: years
+      value: '{fields.id}'
+      label: '{fields.name}'
+      search: name
+  - name: officialUrl
+    label: Web oficial CanSat
+    type: string
+    pattern:
+      regex: ^(https?://[^\s]+)?$
+      message: Escriu una URL pública completa que comenci amb https://.
+  - name: primaryMission
+    label: Missió principal
+    type: text
+    required: true
+  - name: heroTitle
+    label: Titular de la portada
+    type: text
+    required: true
+  - name: basesUrl
+    label: Enllaç a les bases vigents
+    type: string
+    pattern:
+      regex: ^(https?://[^\s]+)?$
+      message: Escriu una URL pública completa que comenci amb https://.
+  - name: pdrUrl
+    label: Enllaç a la guia PDR
+    type: string
+    pattern:
+      regex: ^(https?://[^\s]+)?$
+      message: Escriu una URL pública completa que comenci amb https://.
+  - name: cdrUrl
+    label: Enllaç a la guia CDR
+    type: string
+    pattern:
+      regex: ^(https?://[^\s]+)?$
+      message: Escriu una URL pública completa que comenci amb https://.
+- name: years
+  label: Cursos
+  type: collection
+  path: content/years
+  format: json
+  filename:
+    template: '{fields.id}.json'
+    field: false
+  fields:
+  - name: id
+    label: Identificador del curs
+    type: string
+    required: true
+    description: 'Exemple: 2027-2028. No el canviïs després de crear el curs.'
+    pattern:
+      regex: ^[a-zA-Z0-9_-]+$
+      message: Identificador sense espais, amb lletres, números, guions o guions baixos.
+  - name: name
+    label: Nom del curs
+    type: string
+    required: true
+  - name: archived
+    label: Arxivat
+    type: boolean
+    default: false
+  view:
+    primary: name
+  operations:
+    rename: false
+- name: teams
+  label: Equips
+  type: collection
+  path: content/teams
+  format: json
+  filename:
+    template: '{fields.id}.json'
+    field: false
+  fields:
+  - name: id
+    label: Identificador estable
+    type: string
+    required: true
+    description: 'Exemple: equip-a. No el canviïs un cop hi hagi tasques associades.'
+    pattern:
+      regex: ^[a-zA-Z0-9_-]+$
+      message: Identificador sense espais, amb lletres, números, guions o guions baixos.
+  - name: yearId
+    label: Curs
+    type: reference
+    required: true
+    options:
+      collection: years
+      value: '{fields.id}'
+      label: '{fields.name}'
+      search: name
+  - name: archived
+    label: Arxivat
+    type: boolean
+    default: false
+  - name: name
+    label: Nom públic
+    type: string
+    required: true
+  - name: description
+    label: Descripció
+    type: text
+  - name: secondaryMission
+    label: Missió secundària
+    type: text
+  - name: color
+    label: Color identificatiu
+    type: string
+    required: true
+    default: '#2459b8'
+    description: 'Color hexadecimal, per exemple #2459b8.'
+    pattern:
+      regex: ^#[0-9a-fA-F]{6}$
+      message: 'Escriu un color com #2459b8.'
+  - name: participants
+    label: Noms o àlies autoritzats
+    type: string
+    list: true
+  view:
+    primary: name
+  operations:
+    rename: false
+- name: tasks
+  label: Tasques
+  type: collection
+  path: content/tasks
+  format: json
+  filename:
+    template: '{fields.id}.json'
+    field: false
+  fields:
+  - name: id
+    label: Identificador estable
+    type: uuid
+    required: true
+    hidden: true
+    options:
+      editable: false
+      generate: false
+  - name: yearId
+    label: Curs
+    type: reference
+    required: true
+    options:
+      collection: years
+      value: '{fields.id}'
+      label: '{fields.name}'
+      search: name
+  - name: archived
+    label: Arxivat
+    type: boolean
+    default: false
+  - name: teamId
+    label: Equip
+    type: reference
+    required: true
+    options:
+      collection: teams
+      value: '{fields.id}'
+      label: '{fields.name}'
+      search: name
+  - name: title
+    label: Títol
+    type: string
+    required: true
+  - name: status
+    label: Estat
+    type: select
+    required: true
+    options:
+      values:
+      - name: pending
+        label: Pendent
+      - name: active
+        label: En curs
+      - name: blocked
+        label: Bloquejada
+      - name: done
+        label: Completada
+    default: pending
+  - name: category
+    label: Categoria
+    type: select
+    required: true
+    options:
+      values:
+      - name: science
+        label: Missió científica
+      - name: electronics
+        label: Electrònica i sensors
+      - name: programming
+        label: Programació
+      - name: telecom
+        label: Telecomunicacions
+      - name: structure
+        label: Estructura i recuperació
+      - name: testing
+        label: Proves i validació
+      - name: documentation
+        label: Documentació i difusió
+    default: science
+  - name: responsible
+    label: Responsable (àlies autoritzat)
+    type: string
+  - name: dueDate
+    label: Data límit
+    type: date
+    default: ''
+    options:
+      format: yyyy-MM-dd
+      time: false
+  - name: completedDate
+    label: Data de finalització
+    type: date
+    default: ''
+    options:
+      format: yyyy-MM-dd
+      time: false
+  - name: description
+    label: Descripció
+    type: text
+  - name: notes
+    label: Notes públiques
+    type: text
+  - name: evidence
+    label: Enllaç a evidència pública
+    type: string
+    description: URL completa https://…
+    pattern:
+      regex: ^(https?://[^\s]+)?$
+      message: Escriu una URL pública completa que comenci amb https://.
+  view:
+    primary: title
+- name: milestones
+  label: Calendari
+  type: collection
+  path: content/milestones
+  format: json
+  filename:
+    template: '{fields.id}.json'
+    field: false
+  fields:
+  - name: id
+    label: Identificador estable
+    type: uuid
+    required: true
+    hidden: true
+    options:
+      editable: false
+      generate: false
+  - name: yearId
+    label: Curs
+    type: reference
+    required: true
+    options:
+      collection: years
+      value: '{fields.id}'
+      label: '{fields.name}'
+      search: name
+  - name: archived
+    label: Arxivat
+    type: boolean
+    default: false
+  - name: title
+    label: Nom de la fita
+    type: string
+    required: true
+  - name: description
+    label: Descripció
+    type: text
+  - name: date
+    label: Data d’inici o termini
+    type: date
+    default: ''
+    options:
+      format: yyyy-MM-dd
+      time: false
+  - name: endDate
+    label: Data final (si dura més d’un dia)
+    type: date
+    default: ''
+    options:
+      format: yyyy-MM-dd
+      time: false
+  - name: period
+    label: Període orientatiu
+    type: string
+  - name: dateKind
+    label: Precisió de la data
+    type: select
+    required: true
+    options:
+      values:
+      - name: confirmed
+        label: Oficial confirmada
+      - name: approximate
+        label: Orientativa
+      - name: unknown
+        label: Pendent de confirmar
+    default: unknown
+  - name: type
+    label: Tipus
+    type: select
+    required: true
+    options:
+      values:
+      - name: registration
+        label: Inscripció
+      - name: report
+        label: Informe
+      - name: launch
+        label: Llançament
+      - name: event
+        label: Esdeveniment
+      - name: internal
+        label: Centre
+    default: internal
+  - name: status
+    label: Estat
+    type: select
+    required: true
+    options:
+      values:
+      - name: planned
+        label: Previst
+      - name: done
+        label: Completat
+      - name: cancelled
+        label: Cancel·lat
+    default: planned
+  - name: conditional
+    label: Condicionat a classificació
+    type: boolean
+    default: false
+  - name: teamId
+    label: 'Equip (buit: tots)'
+    type: reference
+    options:
+      collection: teams
+      value: '{fields.id}'
+      label: '{fields.name}'
+      search: name
+  - name: source
+    label: Font oficial o documentació
+    type: string
+    pattern:
+      regex: ^(https?://[^\s]+)?$
+      message: Escriu una URL pública completa que comenci amb https://.
+  - name: sortMonth
+    label: Mes de referència per ordenar
+    type: string
+    description: 'Opcional per a períodes sense dia exacte. Exemple: 2027-03. No es
+      mostrarà com una data confirmada.'
+    pattern:
+      regex: ^(\d{4}-(0[1-9]|1[0-2]))?$
+      message: 'Format: AAAA-MM, o buit.'
+  view:
+    primary: title
+- name: logs
+  label: Diari i reunions
+  type: collection
+  path: content/logs
+  format: json
+  filename:
+    template: '{fields.id}.json'
+    field: false
+  fields:
+  - name: id
+    label: Identificador estable
+    type: uuid
+    required: true
+    hidden: true
+    options:
+      editable: false
+      generate: false
+  - name: yearId
+    label: Curs
+    type: reference
+    required: true
+    options:
+      collection: years
+      value: '{fields.id}'
+      label: '{fields.name}'
+      search: name
+  - name: archived
+    label: Arxivat
+    type: boolean
+    default: false
+  - name: teamId
+    label: Equip
+    type: reference
+    required: true
+    options:
+      collection: teams
+      value: '{fields.id}'
+      label: '{fields.name}'
+      search: name
+  - name: date
+    label: Data
+    type: date
+    required: true
+    default: ''
+    options:
+      format: yyyy-MM-dd
+      time: false
+  - name: title
+    label: Títol breu
+    type: string
+    required: true
+  - name: summary
+    label: Avenços aconseguits
+    type: text
+    required: true
+  - name: blockers
+    label: Problemes o bloquejos
+    type: text
+  - name: nextSteps
+    label: Compromisos i propers passos
+    type: text
+  - name: meeting
+    label: És un resum de reunió
+    type: boolean
+    default: true
+  - name: photo
+    label: Fotografia autoritzada
+    type: image
+  - name: photoAlt
+    label: Descripció accessible de la fotografia
+    type: string
+  - name: caption
+    label: Peu de foto
+    type: string
+  view:
+    primary: title
+- name: requirements
+  label: Verificacions tècniques
+  type: collection
+  path: content/requirements
+  format: json
+  filename:
+    template: '{fields.id}.json'
+    field: false
+  fields:
+  - name: id
+    label: Identificador estable
+    type: uuid
+    required: true
+    hidden: true
+    options:
+      editable: false
+      generate: false
+  - name: yearId
+    label: Curs
+    type: reference
+    required: true
+    options:
+      collection: years
+      value: '{fields.id}'
+      label: '{fields.name}'
+      search: name
+  - name: archived
+    label: Arxivat
+    type: boolean
+    default: false
+  - name: teamId
+    label: Equip
+    type: reference
+    required: true
+    options:
+      collection: teams
+      value: '{fields.id}'
+      label: '{fields.name}'
+      search: name
+  - name: title
+    label: Requisit
+    type: string
+    required: true
+  - name: description
+    label: Descripció
+    type: text
+  - name: recommendation
+    label: És una recomanació
+    type: boolean
+    default: false
+  - name: status
+    label: Verificació
+    type: select
+    required: true
+    options:
+      values:
+      - name: pending
+        label: Pendent
+      - name: checking
+        label: En verificació
+      - name: verified
+        label: Verificat
+    default: pending
+  - name: evidence
+    label: Enllaç a evidència pública
+    type: string
+    pattern:
+      regex: ^(https?://[^\s]+)?$
+      message: Escriu una URL pública completa que comenci amb https://.
+  - name: notes
+    label: Observacions
+    type: text
+  - name: source
+    label: Font oficial
+    type: string
+    pattern:
+      regex: ^(https?://[^\s]+)?$
+      message: Escriu una URL pública completa que comenci amb https://.
+  view:
+    primary: title

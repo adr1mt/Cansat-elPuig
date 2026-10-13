@@ -1,0 +1,28 @@
+{
+  "name": "cansat-mission-tracker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev --host 0.0.0.0",
+    "check": "astro check",
+    "validate": "node --experimental-strip-types scripts/validate.ts",
+    "test": "node --experimental-strip-types tests/domain.test.ts",
+    "build": "npm run validate && astro build",
+    "verify": "npm run check && npm run validate && npm test && npm run build",
+    "preview": "astro preview --host 0.0.0.0"
+  },
+  "dependencies": {
+    "astro": "7.3.8",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "latest",
+    "@types/node": "^24.19.2",
+    "typescript": "^5.9.0",
+    "yaml": "^2.8.0"
+  }
+}

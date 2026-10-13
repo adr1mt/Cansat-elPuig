@@ -1,0 +1,10 @@
+{
+  "id": "equip-a",
+  "yearId": "2026-2027",
+  "name": "Puig Falcon",
+  "color": "#2459b8",
+  "description": "Un CanSat propi, una missió científica independent. Equip de segon curs del CFGM de Sistemes Microinformàtics i Xarxes.",
+  "secondaryMission": "",
+  "participants": [],
+  "archived": false
+}

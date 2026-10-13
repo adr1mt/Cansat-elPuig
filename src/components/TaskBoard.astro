@@ -1,0 +1,130 @@
+---
+import type { Task } from "../lib/schemas";
+import { states, categories } from "../lib/schemas";
+import { formatDate, madridToday } from "../lib/domain";
+interface Props {
+  tasks: Task[];
+}
+const { tasks } = Astro.props;
+const owners = [
+  ...new Set(tasks.map((t) => t.responsible).filter(Boolean)),
+].sort();
+---
+
+<section data-task-board>
+  <div class="section-heading">
+    <h2>Tauler de tasques</h2>
+    <span class="muted">Seguiment públic · només lectura</span>
+  </div>
+  <div class="filters" hidden data-enhance>
+    <label>
+      Categoria
+      <select data-category>
+        <option value="all">Totes les categories</option>
+        {Object.entries(categories).map(([k, v]) => (
+          <option value={k}>{v}</option>
+        ))}
+      </select>
+    </label>
+    {owners.length > 0 && (
+      <label>
+        Responsable
+        <select data-owner>
+          <option value="all">Tots els responsables</option>
+          {owners.map((o) => (
+            <option value={o}>{o}</option>
+          ))}
+        </select>
+      </label>
+    )}
+    <p data-filter-count aria-live="polite">
+      {tasks.length} tasques
+    </p>
+  </div>
+  <div class="kanban">
+    {Object.entries(states).map(([state, label]) => (
+      <section class="kanban-column">
+        <h3>
+          <span class:list={["state-dot", state]}></span>
+          {label}
+          <span class="column-count" data-column-count>
+            {tasks.filter((t) => t.status === state).length}
+          </span>
+        </h3>
+        <div class="task-list">
+          {tasks
+            .filter((t) => t.status === state)
+            .map((t) => (
+              <details
+                class="task-card"
+                data-filter-item
+                data-category={t.category}
+                data-owner={t.responsible}
+              >
+                <summary>
+                  <span class="task-category">{categories[t.category]}</span>
+                  <strong>{t.title}</strong>
+                  <span class="task-info">
+                    Responsable: {t.responsible || "Per assignar"}
+                  </span>
+                  <span class="task-info">
+                    {label}
+                    {t.dueDate && (
+                      <>
+                        {" "}
+                        ·{" "}
+                        <time datetime={t.dueDate}>
+                          Límit: {formatDate(t.dueDate)}
+                        </time>
+                        <span
+                          class="overdue"
+                          data-due={t.dueDate}
+                          data-done={t.status === "done"}
+                          hidden={
+                            t.status === "done" || t.dueDate >= madridToday()
+                          }
+                        >
+                          {" "}
+                          · Vençuda
+                        </span>
+                      </>
+                    )}
+                  </span>
+                  <span class="task-open">Detalls de la tasca</span>
+                </summary>
+                <div class="task-details">
+                  {t.description && <p>{t.description}</p>}
+                  {t.notes && (
+                    <p>
+                      <strong>Notes:</strong> {t.notes}
+                    </p>
+                  )}
+                  {t.evidence && <a href={t.evidence}>Evidència pública ↗</a>}
+                  {t.completedDate && (
+                    <p>Completada el {formatDate(t.completedDate)}</p>
+                  )}
+                  {!t.description &&
+                    !t.notes &&
+                    !t.evidence &&
+                    !t.completedDate && <p>Sense informació addicional.</p>}
+                </div>
+              </details>
+            ))}
+        </div>
+        <p
+          class="column-empty"
+          data-column-empty
+          hidden={tasks.some((t) => t.status === state)}
+        >
+          Cap tasca en aquest estat.
+        </p>
+      </section>
+    ))}
+  </div>
+  {tasks.length === 0 && (
+    <p class="helper">
+      Les tasques apareixeran aquí quan es publiqui la primera planificació de
+      l’equip.
+    </p>
+  )}
+</section>
