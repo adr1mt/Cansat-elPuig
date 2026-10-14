@@ -6,15 +6,16 @@ import Icon from "../components/Icon.astro";
 interface Props {
   title: string;
   description?: string;
+  className?: string;
 }
-const { title, description } = Astro.props;
+const { title, description, className } = Astro.props;
 const { settings, year } = await loadData();
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const nav = [
   ["", "Inici"],
   ["equips/", "Equips"],
   ["calendari/", "Calendari"],
-  ["diari/", "Diari de missió"],
+  ["diari/", "Diari"],
 ];
 ---
 
@@ -40,9 +41,9 @@ const nav = [
     <meta name="theme-color" content="#090f18" media="(prefers-color-scheme: dark)" />
     <script is:inline>
       (() => {
-        let preference = "system";
-        try { preference = localStorage.getItem("cansat-theme") || "system"; } catch {}
-        if (!["light", "dark", "system"].includes(preference)) preference = "system";
+        let preference = "dark";
+        try { preference = localStorage.getItem("cansat-theme") || "dark"; } catch {}
+        if (!["light", "dark", "system"].includes(preference)) preference = "dark";
         const media = matchMedia("(prefers-color-scheme: dark)");
         const apply = () => {
           const theme = preference === "system" ? (media.matches ? "dark" : "light") : preference;
@@ -62,7 +63,7 @@ const nav = [
         });
         window.addEventListener("storage", event => {
           if (event.key !== "cansat-theme" && event.key !== null) return;
-          preference = ["light", "dark"].includes(event.newValue) ? event.newValue : "system";
+          preference = ["light", "dark", "system"].includes(event.newValue) ? event.newValue : "dark";
           apply();
           const select = document.querySelector("[data-theme-select]");
           if (select) select.value = preference;
@@ -111,7 +112,7 @@ const nav = [
         </div>
       </div>
     </header>
-    <main id="main" class="container" tabindex="-1">
+    <main id="main" class:list={["container", className]} tabindex="-1">
       <slot />
     </main>
     <footer class="site-footer">

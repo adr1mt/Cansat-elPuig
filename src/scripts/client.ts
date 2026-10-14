@@ -164,7 +164,7 @@ document.querySelectorAll<HTMLElement>("[data-log-filter]").forEach((root) =>
 
 const themeSelect = document.querySelector<HTMLSelectElement>("[data-theme-select]");
 if (themeSelect) {
-  themeSelect.value = document.documentElement.dataset.themePreference || "system";
+  themeSelect.value = document.documentElement.dataset.themePreference || "dark";
   themeSelect.addEventListener("change", () => {
     document.dispatchEvent(new CustomEvent("cansat:theme", { detail: themeSelect.value }));
   });

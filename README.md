@@ -4,7 +4,7 @@ Web pública para seguir dos CanSat independientes de SMX2, curso 2026–2027. P
 
 ## Apariencia
 
-La portada utiliza un esquema conceptual de vuelo CanSat y una cuenta atrás al próximo hito confirmado. El selector **Sistema / Clar / Fosc** sigue por defecto el tema de la máquina y permite guardar una elección manual en el navegador. Todas las páginas se adaptan a ambos temas; sin JavaScript se utiliza la preferencia del sistema. El esquema del CanSat conserva el dibujo técnico elegido del mock-up, con fondo transparente, anotaciones y texto alternativo. Astro sirve versiones WebP adaptadas al tamaño de pantalla.
+La portada destaca los equipos con tarjetas rectangulares de acento azul y turquesa, un skyline ilustrado inspirado en la Serralada de Marina y el esquema conceptual del CanSat. La próxima fecha confirmada aparece en una franja compacta con cuenta atrás. El tema inicial es oscuro; el selector **Sistema / Clar / Fosc** conserva las elecciones guardadas y permite seguir el tema de la máquina. Sin JavaScript se utiliza el tema oscuro. El paisaje es decorativo y no representa un perfil topográfico exacto; el esquema mantiene sus anotaciones y texto alternativo. Astro sirve ambas imágenes en WebP adaptativo. Los equipos muestran únicamente progreso, tareas y entradas reales del CMS.
 
 ## Stack e instalación
 
