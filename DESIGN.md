@@ -134,17 +134,17 @@ Inter se sirve localmente como MissionSans, con Regular y SemiBold. El titular e
 
 ## Layout
 
-Contenedor principal centrado de máximo 1184px y cabecera de máximo 1320px. El panel espacial agrupa la introducción y el próximo objetivo. En escritorio, la introducción comparte espacio con el esquema SVG del CanSat; en móvil, el esquema continúa debajo del texto. La cuenta atrás ocupa una columna lateral, de 224px en escritorio y 90px en móvil.
+Contenedor principal centrado de máximo 1184px y cabecera de máximo 1320px. El panel espacial agrupa la introducción y el próximo objetivo. En escritorio, la introducción comparte espacio con el esquema del CanSat; en móvil, el esquema continúa debajo del texto. La cuenta atrás ocupa una columna lateral, de 224px en escritorio y 90px en móvil.
 
 El ritmo de las secciones es de 48px, reducido a 32px en móvil. Los equipos y bloques de dos columnas pasan a una columna a 767px. El Kanban muestra cuatro columnas, dos a 1100px y una a 767px. En móvil, navegación y selector de tema permanecen visibles; el selector comparte fila con la marca y la navegación ocupa otra fila.
 
 ## Elevation & Depth
 
-Sistema plano sin sombras: bordes de un píxel, espacio y superficies tonales. Una animación de trazado de 1.2s se reproduce una vez en la trayectoria del esquema; `prefers-reduced-motion` la desactiva. El contenido permanece visible durante la animación.
+Sistema plano sin sombras: bordes de un píxel, espacio y superficies tonales. El esquema de portada es una imagen estática con fondo transparente y anotaciones de paracaídas, radio y sensores. Se conserva en `src/assets/cansat-schematic.png` y Astro sirve versiones WebP de 480 y 960 px.
 
 ## Shapes
 
-Panel espacial de radio 16px; tarjetas mayores de 14px. Los controles conservan sus radios existentes. Marca e iconos de equipo utilizan contenedores circulares. El esquema SVG representa un vuelo conceptual y no un diseño construido ni telemetría real.
+Panel espacial de radio 16px; tarjetas mayores de 14px. Los controles conservan sus radios existentes. Marca e iconos de equipo utilizan contenedores circulares. El esquema representa un vuelo conceptual y no un diseño construido ni telemetría real.
 
 ## Components
 
