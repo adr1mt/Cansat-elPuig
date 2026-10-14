@@ -14,7 +14,7 @@ const d = await loadData();
   </div>
   <div class="team-grid">
     {d.teams.map((team) => (
-      <TeamCard team={team} tasks={d.tasks} logs={d.logs} />
+      <TeamCard team={team} tasks={d.tasks} logs={d.logs} headingLevel={2} />
     ))}
   </div>
   <section class="section primary-mission">

@@ -23,7 +23,7 @@ const nav = [
 <html lang="ca">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
     <title>{title} · {settings.title}</title>
     <meta name="description" content={description || settings.description} />
     <link rel="canonical" href={canonical} />
@@ -91,7 +91,8 @@ const nav = [
             <a
               href={path(route)}
               aria-current={
-                Astro.url.pathname === path(route) ? "page" : undefined
+                Astro.url.pathname === path(route) ? "page" :
+                  route && Astro.url.pathname.startsWith(path(route)) ? "location" : undefined
               }
             >
               {label}

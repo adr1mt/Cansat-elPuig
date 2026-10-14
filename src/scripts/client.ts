@@ -110,8 +110,8 @@ document
   .querySelectorAll<HTMLElement>("[data-enhance]")
   .forEach((el) => (el.hidden = false));
 document.querySelectorAll<HTMLElement>("[data-task-board]").forEach((board) => {
-  const category = board.querySelector<HTMLSelectElement>("[data-category]"),
-    owner = board.querySelector<HTMLSelectElement>("[data-owner]");
+  const category = board.querySelector<HTMLSelectElement>("select[data-category]"),
+    owner = board.querySelector<HTMLSelectElement>("select[data-owner]");
   const apply = () => {
     let visible = 0;
     board

@@ -11,8 +11,10 @@ const photos = import.meta.glob<ImageMetadata>(
 interface Props {
   log: MissionLog;
   team: Team;
+  headingLevel?: 2 | 3;
 }
-const { log, team } = Astro.props;
+const { log, team, headingLevel = 3 } = Astro.props;
+const Heading = headingLevel === 2 ? "h2" : "h3";
 ---
 
 <article class="log-card" data-filter-item data-team={team.id}>
@@ -21,7 +23,7 @@ const { log, team } = Astro.props;
     <time datetime={log.date}>{formatDate(log.date)}</time>
     {log.meeting && <span class="tag">Reunió</span>}
   </div>
-  <h3>{log.title}</h3>
+  <Heading>{log.title}</Heading>
   <p>{log.summary}</p>
   {log.blockers && (
     <p>

@@ -5,8 +5,10 @@ interface Props {
   milestones: Milestone[];
   compact?: boolean;
   teams?: Team[];
+  headingLevel?: 2 | 3;
 }
-const { milestones, compact = false, teams = [] } = Astro.props;
+const { milestones, compact = false, teams = [], headingLevel = 3 } = Astro.props;
+const Heading = headingLevel === 2 ? "h2" : "h3";
 const labels = {
   confirmed: "Data oficial confirmada",
   approximate: "Període orientatiu",
@@ -36,7 +38,7 @@ const ordered = orderMilestones(milestones);
       </div>
       <div class="timeline-body">
         <div class="timeline-title">
-          <h3>{m.title}</h3>
+          <Heading>{m.title}</Heading>
           <span class="tag" data-milestone-state>
             {milestoneState(m)}
           </span>

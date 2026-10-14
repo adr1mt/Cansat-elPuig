@@ -39,6 +39,7 @@ const logs = latestLogs(d.logs);
       {logs.map((log) => (
         <MissionLogCard
           log={log}
+          headingLevel={2}
           team={d.teams.find((t) => t.id === log.teamId)!}
         />
       ))}

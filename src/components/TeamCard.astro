@@ -8,8 +8,10 @@ interface Props {
   team: Team;
   tasks: Task[];
   logs: MissionLog[];
+  headingLevel?: 2 | 3;
 }
-const { team, tasks, logs } = Astro.props;
+const { team, tasks, logs, headingLevel = 3 } = Astro.props;
+const Heading = headingLevel === 2 ? "h2" : "h3";
 const teamTasks = activeTasks(tasks, team.id, team.yearId);
 const stats = progress(teamTasks);
 const latest = latestLogs(logs, team.id, team.yearId)[0];
@@ -19,7 +21,7 @@ const visibleTasks = [...teamTasks].sort((a, b) => priority[a.status] - priority
 
 <article class="team-card" style={`--team:${team.color}`}>
   <div class="team-heading">
-    <h3><a href={path(`equips/${team.id}/`)}>{team.name}</a></h3>
+    <Heading><a href={path(`equips/${team.id}/`)}>{team.name}</a></Heading>
     <span class="team-badge">{team.id.toUpperCase()}</span>
   </div>
   <p class="secondary">{team.secondaryMission || "Missió secundària per definir"}</p>
@@ -47,7 +49,7 @@ const visibleTasks = [...teamTasks].sort((a, b) => priority[a.status] - priority
     </ul>
   )}
   <div class="team-bottom">
-    <a class="text-link" href={path(`equips/${team.id}/`)}>Veure equip <Icon name="arrow" /></a>
+    <a class="text-link" href={path(`equips/${team.id}/`)} aria-label={`Veure equip ${team.name}`}>Veure equip <Icon name="arrow" /></a>
     {latest && <small>Darrera entrada: {formatDate(latest.date)}</small>}
     {teamTasks.length > visibleTasks.length && <small>{teamTasks.length} tasques en total</small>}
   </div>

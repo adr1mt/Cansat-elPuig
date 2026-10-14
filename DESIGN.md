@@ -10,7 +10,7 @@ colors:
   accent: "#ff966f"
   tonal: "#172536"
   tag-text: "#bacbdf"
-  field-line: "#4d6178"
+  field-line: "#60768e"
   summary-surface: "#1a2b3e"
   track: "#142334"
   inverse: "#090f18"
@@ -26,7 +26,7 @@ colors:
   light-accent: "#a63f1d"
   light-tonal: "#eaf0f6"
   light-tag-text: "#425569"
-  light-field-line: "#bbc9d6"
+  light-field-line: "#788a9d"
   light-summary-surface: "#eef3f8"
   light-track: "#e2e8ef"
   light-inverse: "#ffffff"
@@ -75,7 +75,7 @@ typography:
     letterSpacing: "-0.025em"
   body:
     fontFamily: "MissionSans, system-ui, sans-serif"
-    fontSize: "15px"
+    fontSize: "16px"
     lineHeight: 1.65
 rounded:
   flat: "0"
@@ -185,11 +185,11 @@ Inter se sirve localmente como MissionSans, con Regular y SemiBold. Los titulare
 
 ## Layout
 
-Contenedor principal y cabecera centrados de máximo 1320px, con 40px por lado; en móvil, 16px por lado. La introducción comparte espacio con el CanSat en escritorio. El skyline decorativo se extiende al ancho de la ventana y ocupa 210px de alto en la base de la portada. El esquema tiene un ancho máximo de 380px. En móvil se coloca debajo del texto y se reduce a 220px; el paisaje ocupa 165px de alto.
+Contenedor principal y cabecera centrados de máximo 1320px, con 40px por lado; en móvil, 16px por lado. La introducción comparte espacio con el CanSat en escritorio. El skyline decorativo se extiende al ancho de la ventana y ocupa 210px de alto en la base de la portada. El esquema tiene un ancho máximo de 380px. En móvil se coloca debajo del texto y alcanza hasta 300px; el paisaje ocupa 165px de alto.
 
-La franja del próximo objetivo tiene tres columnas en escritorio: información, fecha y cuenta atrás de 150px. En móvil tiene dos columnas, con una cuenta atrás de 88px que abarca ambas filas. Los equipos se muestran en dos columnas y pasan a una a 767px. Su sección empieza a 24px de la franja, con separaciones compactas entre tarjetas y módulos inferiores. Otras secciones conservan el ritmo de 48px, reducido a 32px en móvil.
+La franja del próximo objetivo tiene tres columnas en escritorio: información, fecha y cuenta atrás de 150px. Hasta 1000px tiene dos columnas; en móvil la cuenta atrás ocupa 80px junto al título y la fecha y el enlace usan todo el ancho debajo. Los equipos se muestran en dos columnas y pasan a una a 767px. Su sección empieza a 24px de la franja, con separaciones compactas entre tarjetas y módulos inferiores. Otras secciones conservan el ritmo de 48px, reducido a 32px en móvil.
 
-El Kanban muestra cuatro columnas, dos a 1100px y una a 767px. En móvil, navegación y selector permanecen visibles: la marca y el selector comparten fila y la navegación ocupa otra. A 360px se compactan la marca y el selector sin ocultarlos.
+El Kanban muestra cuatro columnas, dos a 1100px y una a 767px. En móvil, navegación y selector permanecen visibles: la marca y el selector comparten fila y la navegación ocupa otra. Hasta 1000px, la cabecera usa dos filas: marca y selector arriba, cuatro enlaces de navegación debajo. Los controles tienen al menos 44px de alto y los selectores usan 16px. A 320px la marca puede ocupar dos líneas sin reducir el texto.
 
 ## Elevation & Depth
 
@@ -219,3 +219,9 @@ La interfaz tiene estados de hover y foco sin animación de entrada o de trayect
 - Don't presentar el esquema como el CanSat construido o inventar telemetría, avances o una fecha de lanzamiento.
 - Don't presentar el skyline ilustrado como un perfil topográfico exacto.
 - Don't comunicar estados únicamente por color.
+
+## Accesibilidad y adaptación
+
+Texto base de 16px, enlaces de acción de al menos 14px y áreas de pulsación de 44px de alto. Los bordes de controles tienen contraste mínimo de 3:1 con sus superficies en ambos temas. El foco del hero claro conserva el acento cálido sobre su fondo oscuro. La leyenda del esquema tiene un fondo azul noche uniforme para conservar el contraste sobre el paisaje en todos los anchos. Los enlaces de equipo tienen nombres accesibles específicos y la navegación señala también la sección de una página de equipo.
+
+Las tarjetas y el calendario reciben el nivel de encabezado según su contexto. El orden visual de los módulos inferiores coincide con el DOM. A 768–1000px se apilan esos módulos; por debajo de 380px las estadísticas usan dos columnas. En móvil, cada verificación coloca su estado debajo del título. La ampliación del texto refluye sin ocultar contenido y los desplegables conservan el comportamiento nativo con y sin JavaScript.

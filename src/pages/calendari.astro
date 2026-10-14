@@ -20,7 +20,7 @@ const d = await loadData();
       orientatius no s’inclouen al compte enrere.
     </p>
   </div>
-  <Timeline teams={d.teams} milestones={d.milestones} />
+  <Timeline teams={d.teams} milestones={d.milestones} headingLevel={2} />
   <section class="section resources">
     <h2>Documentació del desafiament</h2>
     <a href={d.settings.basesUrl}>Bases vigents {d.year.name} ↗</a>
