@@ -65,5 +65,5 @@ for (const [key, schema] of Object.entries(schemas)) {
   }
 }
 console.log(
-  `Contingut vàlid: ${Object.values(data).reduce((n, v) => n + v.length, 0)} registres. CMS: 7 editors, tots els camps coberts.`,
+  `Contingut vàlid: ${Object.values(data).reduce((n, v) => n + v.length, 0)} registres. CMS: ${config.content.length} editors, tots els camps coberts.`,
 );

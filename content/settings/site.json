@@ -1,13 +1,13 @@
 {
   "id": "site",
   "title": "CanSat Puig Castellar",
-  "description": "Dos equips, dos CanSat i un curs per convertir una idea en una missió científica. Segueix el treball de l’alumnat de SMX2.",
+  "description": "Seguiment dels dos equips de SMX2: tasques, proves i calendari del curs 2026–2027.",
   "school": "Institut Puig Castellar",
   "location": "Santa Coloma de Gramenet · Barcelona",
   "activeYearId": "2026-2027",
   "officialUrl": "https://esero.es/desafios/cansat/",
   "primaryMission": "Mesurar la temperatura i la pressió atmosfèrica durant el descens, transmetre les dades a l’estació terrena i analitzar els resultats del vol.",
-  "heroTitle": "De l’aula\na una missió real.",
+  "heroTitle": "CanSat al Puig",
   "basesUrl": "https://esero.es/wp-content/uploads/2026/09/bases-del-desafio-cansat-2026-2027.pdf",
   "pdrUrl": "https://esero.es/wp-content/uploads/2026/01/2026_PDR_CanSat.pdf",
   "cdrUrl": "https://esero.es/wp-content/uploads/2026/01/2026_CDR_CanSat.pdf"

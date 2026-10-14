@@ -36,7 +36,8 @@ content/
   settings/       SiteSettings: titular, centro, introducción, curso activo y enlaces
   years/          AcademicYear: curso e histórico
   teams/          Team: ID estable, misión secundaria, color, participantes
-  tasks/          Task: equipo, curso, estado, responsable y fechas
+  participants/   Participant: nombre o alias público, equipo y curso
+  tasks/          Task: equipo, curso, estado, participante responsable y fechas
   milestones/     Milestone: precisión, condición, estado y fechas
   logs/           MissionLog: avances y resúmenes de reunión
   requirements/   TechnicalRequirement: verificación independiente y evidencia
@@ -79,7 +80,7 @@ Se han consultado las guías [PDR de enero de 2026](https://esero.es/wp-content/
 
 ## GitHub Pages
 
-La carpeta entregada debe ser la **raíz del repositorio**, con `.pages.yml`, `package.json` y `.github` en ese nivel. Crear o seleccionar el repositorio y cargar estos archivos es un paso pendiente del propietario. No se han hecho commits ni pushes.
+La carpeta entregada debe ser la **raíz del repositorio**, con `.pages.yml`, `package.json` y `.github` en ese nivel. El repositorio del proyecto es `adr1mt/Cansat-elPuig`. GitHub Pages está configurado mediante Actions.
 
 1. Usar la rama `main` (si se usa otra, ajustar el workflow).
 2. En Settings → Pages, seleccionar **GitHub Actions** como origen.
@@ -99,19 +100,19 @@ SITE_URL=https://USUARIO.github.io BASE_PATH=/NOMBRE-REPOSITORIO npm run preview
 
 También puede copiarse `.env.example` a `.env` y sustituir los valores; Node carga ese archivo en la configuración. No incluir `.env` en Git. Los enlaces, favicon, imágenes procesadas, CSS, scripts, rutas, canonical y sitemap respetan el base.
 
-## Pages CMS: activación pendiente
+## Pages CMS
 
 Se utiliza la versión alojada de [Pages CMS](https://app.pagescms.org/), sin instalar un servidor CMS propio. El acceso de edición se gestiona mediante su integración con GitHub; el sitio público no tiene autenticación.
 
 1. Entrar con la cuenta del profesor y autorizar la GitHub App de Pages CMS únicamente para este repositorio.
 2. Abrir el repositorio y la rama `main`. Mantener el acceso de escritura reservado al profesor; no invitar alumnado como editor.
-3. Comprobar que aparecen siete secciones: Configuració del web, Cursos, Equips, Tasques, Calendari, Diari i reunions y Verificacions tècniques.
+3. Comprobar que aparecen ocho secciones: Configuració del web, Cursos, Equips, Participants, Tasques, Calendari, Diari i reunions y Verificacions tècniques.
 4. Hacer la comprobación real descrita en `docs/VALIDACION.md`, incluyendo subida de foto, referencias e identificación automática.
 5. Entregar `docs/GUIA-EDITOR.md` al profesor.
 
 Los campos usan JSON, textos planos, selectores controlados, referencias que guardan `{fields.id}`, fechas `yyyy-MM-dd`, UUID e imágenes. Nombres públicos de equipos y cursos se resuelven dinámicamente en el editor. La colección de imágenes guarda en `public/media` y escribe `/media/...`; Astro las importa y genera versiones WebP de 480/800/1200 px con `srcset`, carga diferida y dimensiones. La foto original permanece en el repositorio. Elegir archivos razonablemente pequeños y descriptivos; aportar texto alternativo y permisos de difusión.
 
-Comprobaciones locales: YAML válido, cobertura de todos los campos de las siete entidades, selectores alineados con Zod, referencias, fechas, existencia de imágenes, IDs duplicados y aislamiento de cursos. Además se contrastó `.pages.yml` con el esquema del código oficial de Pages CMS; detalles y límites en `docs/VALIDACION.md`. **El flujo autenticado real no ha sido probado**: no hay repositorio ni autorización de Pages CMS asociados.
+Comprobaciones locales: YAML válido, cobertura de todos los campos de las ocho entidades, selectores alineados con Zod, referencias, fechas, existencia de imágenes, IDs duplicados y aislamiento de cursos. Además se contrastó `.pages.yml` con el esquema del código oficial de Pages CMS; detalles y límites en `docs/VALIDACION.md`. **El flujo autenticado real no se ha probado en esta sesión**. El propietario confirma que Pages CMS está autorizado para este repositorio.
 
 ## Dominio .cat de Nominalia (sin configurar todavía)
 
@@ -137,6 +138,12 @@ Los mensajes de Astro sobre colecciones vacías de tareas/diario son esperados c
 
 ## Estado de la entrega
 
-Implementación y configuración local completas. Consultar `docs/VALIDACION.md` para resultados y capturas. GitHub Pages, el acceso real a Pages CMS y DNS/HTTPS de Nominalia siguen pendientes de activación por el propietario. No hay credenciales en el proyecto.
+GitHub Pages está configurado y el propietario confirma que Pages CMS está autorizado. Consultar `docs/VALIDACION.md` para pruebas y límites: la edición autenticada de participantes y tareas requiere una comprobación desde el editor. DNS/HTTPS del dominio propio sigue pendiente. No hay credenciales en el proyecto.
 
 Documentación técnica consultada: [Astro](https://docs.astro.build/), [Content Collections](https://docs.astro.build/en/guides/content-collections/), [GitHub Pages con Astro](https://docs.astro.build/en/guides/deploy/github/), [Pages CMS](https://pagescms.org/docs/) y su [configuración](https://pagescms.org/docs/configuration/).
+
+## Participantes y asignación de tareas
+
+En Pages CMS, añade cada persona en **Participants** con nombre o alias público, curso y equipo. En **Tasques**, selecciona el participante en **Responsable**. La referencia usa un ID estable: cambiar su nombre actualiza las tareas sin reasignarlas. El selector muestra el nombre y el ID del equipo; busca en toda la colección. La validación rechaza participantes de otro equipo o curso, referencias inexistentes y participantes archivados con tareas abiertas. Las tareas sin responsable son válidas. Reasigna antes de eliminar participantes; archivar conserva sus tareas completadas.
+
+Los anteriores alias de equipo y responsables escritos a mano se conservan por compatibilidad, ocultos en el editor. Los nuevos participantes y asignaciones se gestionan desde los selectores. No se han añadido personas ni tareas ficticias.

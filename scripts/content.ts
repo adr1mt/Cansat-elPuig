@@ -43,6 +43,19 @@ export function validateRelations(data: Dataset) {
           throw new Error(`Equip o curs incorrecte: ${key}/${item.id}`);
       }
     }
+  const participants = new Map(data.participants.map((p) => [p.id, p]));
+  for (const task of data.tasks) {
+    if (!task.responsibleId) continue;
+    const participant = participants.get(task.responsibleId);
+    if (
+      !participant ||
+      participant.teamId !== task.teamId ||
+      participant.yearId !== task.yearId
+    )
+      throw new Error(`Responsable inexistent o d’un altre equip: tasks/${task.id}`);
+    if (participant.archived && !task.archived && task.status !== "done")
+      throw new Error(`Responsable arxivat: tasks/${task.id}. Reassigna la tasca.`);
+  }
 }
 export async function validatePhotos(data: Dataset) {
   for (const log of data.logs)

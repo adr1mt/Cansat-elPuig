@@ -1,6 +1,7 @@
 import { getCollection } from "astro:content";
+import { responsibleName } from "./participants";
 export async function loadData() {
-  const [s, y, t, ta, m, l, r] = await Promise.all([
+  const [s, y, t, ta, m, l, r, p] = await Promise.all([
     getCollection("settings"),
     getCollection("years"),
     getCollection("teams"),
@@ -8,12 +9,23 @@ export async function loadData() {
     getCollection("milestones"),
     getCollection("logs"),
     getCollection("requirements"),
+    getCollection("participants"),
   ]);
+  const participants = p.map((e) => e.data);
   const settings = s[0].data,
     year = y.find((e) => e.data.id === settings.activeYearId)!.data;
   const teams = t
     .map((e) => e.data)
-    .filter((e) => e.yearId === year.id && !e.archived);
+    .filter((e) => e.yearId === year.id && !e.archived)
+    .map((team) => ({
+      ...team,
+      participants: [...new Set([
+        ...team.participants,
+        ...participants.filter((p) =>
+          p.teamId === team.id && p.yearId === team.yearId && !p.archived
+        ).map((p) => p.name),
+      ])],
+    }));
   const ids = new Set(teams.map((t) => t.id));
   return {
     settings,
@@ -21,7 +33,8 @@ export async function loadData() {
     teams,
     tasks: ta
       .map((e) => e.data)
-      .filter((e) => e.yearId === year.id && ids.has(e.teamId) && !e.archived),
+      .filter((e) => e.yearId === year.id && ids.has(e.teamId) && !e.archived)
+      .map((task) => ({ ...task, responsible: responsibleName(task, participants) })),
     milestones: m
       .map((e) => e.data)
       .filter(

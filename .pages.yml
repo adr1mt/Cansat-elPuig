@@ -157,11 +157,63 @@ content:
       regex: ^#[0-9a-fA-F]{6}$
       message: 'Escriu un color com #2459b8.'
   - name: participants
-    label: Noms o àlies autoritzats
+    label: Participants anteriors
     type: string
     list: true
+    hidden: true
   view:
     primary: name
+  operations:
+    rename: false
+- name: participants
+  label: Participants
+  type: collection
+  path: content/participants
+  format: json
+  filename:
+    template: '{fields.id}.json'
+    field: false
+  fields:
+  - name: id
+    label: Identificador estable
+    type: uuid
+    required: true
+    hidden: true
+    options:
+      editable: false
+      generate: false
+  - name: name
+    label: Nom o àlies públic
+    type: string
+    required: true
+    description: Aquest nom es mostrarà a l’equip i a les tasques assignades.
+  - name: yearId
+    label: Curs
+    type: reference
+    required: true
+    options:
+      collection: years
+      value: '{fields.id}'
+      label: '{fields.name}'
+      search: name
+  - name: teamId
+    label: Equip
+    type: reference
+    required: true
+    options:
+      collection: teams
+      value: '{fields.id}'
+      label: '{fields.name}'
+      search: name
+  - name: archived
+    label: Arxivat
+    type: boolean
+    default: false
+    description: Reassigna les tasques obertes abans d’arxivar el participant.
+  view:
+    primary: name
+    fields: [name, teamId, yearId, archived]
+    search: [name, teamId]
   operations:
     rename: false
 - name: tasks
@@ -244,8 +296,18 @@ content:
         label: Documentació i difusió
     default: science
   - name: responsible
-    label: Responsable (àlies autoritzat)
+    label: Responsable anterior
     type: string
+    hidden: true
+  - name: responsibleId
+    label: Responsable
+    type: reference
+    description: Cerca un participant de l’equip de la tasca. Deixa-ho buit si encara no està assignada.
+    options:
+      collection: participants
+      value: '{fields.id}'
+      label: '{fields.name} · {fields.teamId}'
+      search: name,teamId
   - name: dueDate
     label: Data límit
     type: date
@@ -275,6 +337,8 @@ content:
       message: Escriu una URL pública completa que comenci amb https://.
   view:
     primary: title
+    fields: [title, teamId, status, dueDate]
+    search: [title, teamId]
 - name: milestones
   label: Calendari
   type: collection

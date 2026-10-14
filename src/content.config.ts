@@ -2,6 +2,14 @@ import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { schemas } from "./lib/schemas";
 export const collections = {
+  participants: defineCollection({
+    loader: glob({
+      pattern: "**/*.json",
+      base: "./content/participants",
+      generateId: ({ data }) => String(data.id),
+    }),
+    schema: schemas.participants,
+  }),
   settings: defineCollection({
     loader: glob({
       pattern: "**/*.json",

@@ -53,7 +53,7 @@ const labels = {
       <h2>Missió secundària</h2>
       <p>
         {team.secondaryMission ||
-          "L’equip encara ha de definir la seva pregunta científica i els objectius de la missió."}
+          "Per definir."}
       </p>
     </section>
   </div>
@@ -61,7 +61,7 @@ const labels = {
     <strong>Participants:</strong>{" "}
     {team.participants.length
       ? team.participants.join(" · ")
-      : "Noms o àlies pendents de publicació autoritzada."}
+      : "Pendents de publicar."}
   </p>
   <dl class="stats">
     {[
@@ -91,10 +91,10 @@ const labels = {
         <time datetime={meeting.date}>{formatDate(meeting.date)}</time>
         <h3>{meeting.title}</h3>
         <p>
-          <strong>Què hem aconseguit:</strong> {meeting.summary}
+          <strong>Resum:</strong> {meeting.summary}
         </p>
         <p>
-          <strong>Bloquejos detectats:</strong>{" "}
+          <strong>Bloquejos:</strong>{" "}
           {meeting.blockers || "Sense bloquejos registrats."}
         </p>
         <p>
@@ -105,7 +105,7 @@ const labels = {
     ) : (
       <EmptyState
         title="Encara no hi ha cap reunió publicada"
-        text="El primer resum recollirà què s’ha aconseguit, els bloquejos i els compromisos per a la setmana següent."
+        text="Els resums es publicaran al diari."
       />
     )}
   </section>

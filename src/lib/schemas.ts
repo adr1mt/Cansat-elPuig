@@ -87,11 +87,17 @@ export const schemas = {
       "documentation",
     ]),
     responsible: text,
+    responsibleId: text,
     dueDate: optionalDate,
     completedDate: optionalDate,
     description: text,
     notes: text,
     evidence: url,
+  }),
+  participants: z.object({
+    ...common,
+    teamId: id,
+    name: z.string().trim().min(1),
   }),
   milestones: z
     .object({
@@ -164,5 +170,6 @@ export const schemas = {
 };
 export type Team = z.infer<typeof schemas.teams>;
 export type Task = z.infer<typeof schemas.tasks>;
+export type Participant = z.infer<typeof schemas.participants>;
 export type Milestone = z.infer<typeof schemas.milestones>;
 export type MissionLog = z.infer<typeof schemas.logs>;
