@@ -17,15 +17,15 @@ function updateDates() {
   if (data) {
     const all: Milestone[] = JSON.parse(data.textContent || "[]");
     const next = upcoming(all, today)[0];
-    set("[data-next-title]", next?.title || "Properes dates pendents");
+    set("[data-next-title]", next?.title || "Sense properes dates confirmades");
     set(
       "[data-next-description]",
       next?.description ||
-        "Consulta el calendari per veure les fites amb data pendent o condicionades a classificació.",
+        "Consulta les dates pendents i les fases condicionades al calendari.",
     );
     set(
       "[data-next-date]",
-      next ? formatDate(next.date) : "Sense cap objectiu futur confirmat",
+      next ? formatDate(next.date) : "Sense data confirmada",
     );
     set(
       "[data-next-days]",

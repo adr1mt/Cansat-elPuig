@@ -13,12 +13,12 @@ const next = upcoming(milestones)[0];
 <section class="next-milestone" data-next-milestone>
   <div class="next-copy">
     <h2>
-      <Icon name="calendar" /> Proper objectiu
+      <Icon name="calendar" /> Propera fita
     </h2>
-    <h3 data-next-title>{next?.title || "Properes dates pendents"}</h3>
+    <h3 data-next-title>{next?.title || "Sense properes dates confirmades"}</h3>
     <p data-next-description>
       {next?.description ||
-        "Consulta el calendari per veure els fites amb data pendent o condicionats a classificació."}
+        "Consulta les dates pendents i les fases condicionades al calendari."}
     </p>
     <div class="next-date">
       <span class="status" data-next-state>
@@ -29,7 +29,7 @@ const next = upcoming(milestones)[0];
             : "Pendent de data"}
       </span>
       <span data-next-date>
-        {next ? formatDate(next.date) : "Sense cap objectiu futur confirmat"}
+        {next ? formatDate(next.date) : "Sense data confirmada"}
       </span>
     </div>
     <a class="text-link" href={path("calendari/")}>
@@ -41,7 +41,7 @@ const next = upcoming(milestones)[0];
       {next?.date ? Math.max(0, daysBetween(madridToday(), next.date)) : "—"}
     </strong>
     <span data-next-days-label>dies restants</span>
-    <small>Hora local · Europe/Madrid</small>
+    <small>Hora de Barcelona</small>
   </div>
 </section>
 <script

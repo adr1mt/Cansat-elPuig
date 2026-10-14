@@ -249,3 +249,43 @@ test("undated periods sort by explicit month without fabricating a day", async (
     ["pdr", "regional", "national", "unknown"],
   );
 });
+
+test("task assignments require a participant in the same team and year", async () => {
+  const d = await readContent();
+  const participant = schemas.participants.parse({
+    id: "participant-a", yearId: "2026-2027", teamId: "equip-a", name: "Prova A",
+  });
+  const assigned = task("assigned", "active", { responsibleId: participant.id });
+  const data = { ...d, participants: [participant], tasks: [assigned] };
+  validateRelations(data);
+  assert.throws(() => validateRelations({ ...data, participants: [] }), /Responsable/);
+  assert.throws(() => validateRelations({
+    ...data, participants: [{ ...participant, teamId: "equip-b" }],
+  }), /Responsable/);
+  assert.throws(() => validateRelations({
+    ...data,
+    years: [...d.years, { id: "2027-2028", name: "2027–2028", archived: false }],
+    teams: [...d.teams, { ...d.teams[0], id: "next-team", yearId: "2027-2028" }],
+    participants: [{ ...participant, teamId: "next-team", yearId: "2027-2028" }],
+  }), /Responsable/);
+  const archived = { ...data, participants: [{ ...participant, archived: true }] };
+  assert.throws(() => validateRelations(archived), /Responsable arxivat/);
+  validateRelations({ ...archived, tasks: [{ ...assigned, status: "done" }] });
+  validateRelations({ ...archived, tasks: [{ ...assigned, archived: true }] });
+  validateRelations({ ...d, tasks: [task("unassigned")] });
+});
+
+test("participant rename updates task display without changing its assignment", async () => {
+  const { responsibleName } = await import("../src/lib/participants.ts");
+  const participant = schemas.participants.parse({
+    id: "participant-a", yearId: "2026-2027", teamId: "equip-a", name: "Prova A",
+  });
+  const assigned = task("assigned", "pending", { responsibleId: participant.id });
+  assert.equal(responsibleName(assigned, [participant]), "Prova A");
+  assert.equal(responsibleName(assigned, [{ ...participant, name: "Nou àlies" }]), "Nou àlies");
+  assert.equal(responsibleName(assigned, [{ ...participant, teamId: "equip-b" }]), "");
+  assert.equal(responsibleName(assigned, []), "");
+  assert.equal(responsibleName(task("legacy", "pending", { responsible: "Àlies anterior" }), []), "Àlies anterior");
+  assert.equal(responsibleName(task("unassigned"), []), "");
+  assert.equal(schemas.tasks.parse(JSON.parse(JSON.stringify(assigned))).responsibleId, participant.id);
+});

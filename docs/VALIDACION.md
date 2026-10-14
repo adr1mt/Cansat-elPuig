@@ -1,6 +1,18 @@
-# Validación y activación pendiente
+# Validación
 
-Fecha de revisión: 13/10/2026. Esta entrega es una web estática funcional y una configuración de edición local; la cuenta de GitHub, la instalación autenticada de Pages CMS y el dominio .cat no están conectados.
+## Revisión del 14/10/2026
+
+Textos públicos simplificados y colección **Participants** añadida a Pages CMS. Las tareas seleccionan un responsable mediante referencia estable; se valida que pertenezca al mismo equipo y curso. Se conservan los anteriores campos de nombres como compatibilidad, ocultos en el editor.
+
+`npm run verify`: tipos sin errores, 41 registros válidos, ocho formularios cubiertos, 17 tests aprobados y build correcto. Los nuevos tests comprueban asignaciones inexistentes, otro equipo/curso, archivo, tareas sin asignar, cambios de nombre y compatibilidad. El detector de Impeccable no reporta hallazgos en los archivos de interfaz modificados.
+
+Prueba adicional con dos participantes y dos tareas temporales: el HTML generado muestra los nombres y el filtro por responsable en cada equipo, sin registros del otro. Los datos de prueba se eliminaron y se recompiló el contenido real.
+
+El propietario confirma que Pages CMS ya está autorizado. La prueba del editor autenticado sigue pendiente: no hay un navegador conectado accesible en esta sesión. La comprobación visual anterior se documenta abajo; no se ha repetido en esta revisión. La configuración usa los campos y referencias documentados por Pages CMS.
+
+## Evidencia de la entrega inicial (13/10/2026)
+
+Los resultados y pendientes siguientes corresponden a la entrega inicial.
 
 ## Comprobaciones reproducibles
 

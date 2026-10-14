@@ -16,7 +16,7 @@ const latest = d.teams
 
 <Layout title="Inici">
   <div class="mission-strip">
-    <span>Centre de missions <span aria-hidden="true">/</span> CanSat</span>
+    <span>Seguiment <span aria-hidden="true">/</span> CanSat</span>
     <span>SMX2 · {d.year.name}</span>
   </div>
   <div class="launch-panel">
@@ -25,7 +25,7 @@ const latest = d.teams
       <h1 class="hero-title">{d.settings.heroTitle}</h1>
       <p>{d.settings.description}</p>
       <a class="text-link" href={d.settings.officialUrl}>
-        Coneix el desafiament CanSat ↗
+        Web oficial CanSat ↗
       </a>
       <ol class="launch-sequence" aria-label="Etapes d’una missió CanSat">
         <li>Dissenyar</li><li>Construir</li><li>Provar</li><li>Volar</li>
@@ -75,7 +75,7 @@ const latest = d.teams
   </div>
   <section class="section">
     <div class="section-heading">
-      <h2>Les nostres missions</h2>
+      <h2>Equips</h2>
       <a href={path("equips/")} class="text-link">
         Tots els equips →
       </a>
@@ -103,8 +103,8 @@ const latest = d.teams
         ))
       ) : (
         <EmptyState
-          title="La missió tot just comença"
-          text="Encara no hi ha avenços publicats. Aquí trobaràs els resums de les reunions i les proves de cada equip."
+          title="Sense entrades publicades"
+          text="Les reunions i les proves es publicaran al diari."
         />
       )}
     </section>

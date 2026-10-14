@@ -10,10 +10,9 @@ const logs = latestLogs(d.logs);
 
 <Layout title="Diari de missió">
   <div class="page-heading">
-    <h1>La missió, setmana a setmana.</h1>
+    <h1>Diari</h1>
     <p>
-      Avenços, proves, entrebancs i decisions. El registre compartit del treball
-      dels dos equips.
+      Reunions, proves i decisions dels dos equips.
     </p>
   </div>
   <section data-log-filter>
@@ -46,8 +45,8 @@ const logs = latestLogs(d.logs);
     </div>
     <div data-log-empty hidden={logs.length > 0}>
       <EmptyState
-        title="La primera entrada encara està per escriure"
-        text="Els resums de reunió i els avenços de cada equip apareixeran aquí quan es publiquin."
+        title="Sense entrades"
+        text="Encara no hi ha entrades per a aquest equip."
       />
     </div>
   </section>
